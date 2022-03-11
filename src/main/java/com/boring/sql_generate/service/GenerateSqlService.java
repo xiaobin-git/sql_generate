@@ -27,6 +27,10 @@ public class GenerateSqlService {
 
     private DruidDataSource druidDataSource = null;
 
+    public void setDruidDataSource(DruidDataSource druidDataSource) {
+        this.druidDataSource = druidDataSource;
+    }
+
     public String getInsertSql(String tableName, Collection<Long> ids, LinkedHashSet<String> identityFields) throws SQLException {
         String sql = "SELECT * FROM " + tableName + String.format(" WHERE id in (%s)", Strings.join(ids, ','));
         List<Map<String, Object>> queryResults = JdbcUtils.executeQuery(druidDataSource, sql);

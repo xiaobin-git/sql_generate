@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据源配置</title>
+</head>
+<style>
+    .config-form-div{
+        border: 1px solid black;
+        margin: 10px;
+        padding: 10px 20px;
+        min-width: 300px;
+        width: 50%;
+    }
+</style>
+<body>
+    <div class="config-form-div">
+        <div id="dbConfigForm">
+            <p>请选择数据库类型：</p>
+            <select v-model="dbType" name="fruit">
+                <option value="">选择数据库类型</option>
+                <option value="mysql">mysql</option>
+                <option value="oracle">oracle</option>
+                <option value="sqlServer">sqlServer</option>
+            </select>
+            <p>数据库地址：</p>
+            <input v-model="dbUrl" style="width: 100%" placeholder="请输入数据库地址">
+            <p>用户名：</p>
+            <input v-model="dbUserName" placeholder="请输入用户名">
+            <p>密码：</p>
+            <input v-model="dbPpdws" type="password" placeholder="请输入密码">
+        </div>
+        <div id="button">
+            <button onclick="saveConfig()" style = "font-size:25px;">确定</button>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="/js/vue.js"></script>
+<script type="text/javascript" src="/js/axios.min.js"></script>
+<script>
+    var dbConfig_v = new Vue({
+        el: '#dbConfigForm',
+        data: {
+            dbType: 'sqlServer',
+            dbUrl: 'jdbc:sqlserver://172.16.31.91:1433;databaseName=RCPMIS_V2_',
+            dbUserName: 'sa',
+            dbPpdws: '1qaz!QAZ'
+        }
+    })
+
+    var btnDiv = new Vue({
+        el: '#button'
+    });
+    function saveConfig() {
+        var paramStr = 'dbType=' + dbConfig_v.dbType
+            + '&userName=' + dbConfig_v.dbUserName
+            + '&passWord=' + dbConfig_v.dbPpdws
+            + '&url=' + dbConfig_v.dbUrl;
+        axios.get('/test/getConnect?' + paramStr)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+</script>
+</html>

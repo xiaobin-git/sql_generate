@@ -8,6 +8,17 @@ package com.boring.sql_generate.config;
  **/
 public enum DBTypeEnum {
 
-    mysql, oracle, sqlServer
+    mysql("com.mysql.jdbc.Driver"),
+    oracle("oracle.jdbc.driver.OracleDriver"),
+    sqlServer("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
+    DBTypeEnum(String driverClassName) {
+        this.driverClassName = driverClassName;
+    }
+
+    private String driverClassName;
+
+    public String getDriverClassName() {
+        return this.driverClassName;
+    }
 }
