@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 /**
@@ -67,7 +69,7 @@ public class GenerateSqlService {
     }
 
     //得到value里的sql
-    private static String turnValueSql(Object value) {
+    private String turnValueSql(Object value) {
         String valueSql = "";
         DBTypeEnum databaseType = getDatabaseType();
         if (null == value) {
@@ -84,13 +86,19 @@ public class GenerateSqlService {
             } else {
                 valueSql = String.format("'%s'", dateStr);
             }
+        } else if (value instanceof LocalDateTime) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = Date.from(((LocalDateTime) value).atZone( ZoneId.systemDefault()).toInstant());
+            String dateStr = simpleDateFormat.format(date);
+            valueSql = String.format("'%s'", dateStr);
         } else {
             valueSql = String.format("%s", value.toString());
         }
         return valueSql;
     }
 
-    public static DBTypeEnum getDatabaseType() {
+    public DBTypeEnum getDatabaseType() {
+        String dbType = druidDataSource.getDbType();
         //todo 待实现
         return DBTypeEnum.mysql;
     }

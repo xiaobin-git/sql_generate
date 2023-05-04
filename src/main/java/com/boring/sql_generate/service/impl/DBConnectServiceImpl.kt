@@ -13,8 +13,10 @@ class DBConnectServiceImpl: DBConnectService {
     private lateinit var wallFilter: WallFilter
     @Autowired
     private lateinit var statFilter: StatFilter*/
+    val dataSource: DruidDataSource? = null
 
-    override fun getDruidDataSource(dbConfig: DBConnectConfig): DruidDataSource {
+
+    override fun createDruidDataSource(dbConfig: DBConnectConfig): DruidDataSource {
         val druidDataSource = DruidDataSource()
         druidDataSource.username = dbConfig.userName
         druidDataSource.password = dbConfig.passWord
@@ -26,6 +28,10 @@ class DBConnectServiceImpl: DBConnectService {
         filterList.add(statFilter)*/
         druidDataSource.proxyFilters = filterList;
         return druidDataSource
+    }
+
+    override fun getDruidDataSource(): DruidDataSource? {
+        return dataSource
     }
 
 }

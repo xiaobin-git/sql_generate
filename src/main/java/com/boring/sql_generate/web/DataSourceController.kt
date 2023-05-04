@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/test")
-class TestController {
+@RequestMapping("/dataSource")
+class DataSourceController {
 
     @Autowired
     private lateinit var dbConnectService: DBConnectService
@@ -22,7 +22,7 @@ class TestController {
 
     @GetMapping("/getConnect")
     fun tryGetDBConnect(@ModelAttribute config: DBConnectConfig): Response {
-        var druidDataSource = dbConnectService.getDruidDataSource(config)
+        var druidDataSource = dbConnectService.createDruidDataSource(config)
         println(druidDataSource.url)
         generateSqlService.setDruidDataSource(druidDataSource)
         if (null != druidDataSource) {

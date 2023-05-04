@@ -66,7 +66,7 @@
             + '&userName=' + dbConfig_v.dbUserName
             + '&passWord=' + dbConfig_v.dbPpdws
             + '&url=' + dbConfig_v.dbUrl;
-        axios.get('/test/getConnect?' + paramStr)
+        axios.get('/dataSource/getConnect?' + paramStr)
             .then(function (response) {
                 connectResult.message = response.data.rpData;
                 // console.log(response);
